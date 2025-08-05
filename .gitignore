@@ -1,0 +1,2 @@
+%%writefile .gitignore
+.streamlit/secrets.toml
