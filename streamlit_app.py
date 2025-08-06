@@ -63,8 +63,11 @@ try:
     WHITELIST = st.secrets["vonage"]["whitelist"]
 
     SPREADSHEET_ID = st.secrets["google"]["spreadsheet_url"]
-    GOOGLE_SA_INFO_JSON = st.secrets["google_service_account"]["json"]
-    GOOGLE_SA_INFO = json.loads(GOOGLE_SA_INFO_JSON)
+    
+    # --- This part is changed to decode the Base64 string ---
+    GOOGLE_SA_INFO_ENCODED = st.secrets["google_service_account"]["base64_encoded_json"]
+    GOOGLE_SA_INFO_DECODED = base64.b64decode(GOOGLE_SA_INFO_ENCODED).decode('utf-8')
+    GOOGLE_SA_INFO = json.loads(GOOGLE_SA_INFO_DECODED)
 except KeyError as e:
     st.error(f"Missing a required secret. Please check your secrets configuration: {e}")
     st.stop()
