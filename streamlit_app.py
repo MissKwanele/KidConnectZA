@@ -63,7 +63,8 @@ try:
     WHITELIST = st.secrets["vonage"]["whitelist"]
 
     SPREADSHEET_ID = st.secrets["google"]["spreadsheet_url"]
-    GOOGLE_SA_INFO = st.secrets["google_service_account"]
+    GOOGLE_SA_INFO_JSON = st.secrets["google_service_account"]["json"]
+    GOOGLE_SA_INFO = json.loads(GOOGLE_SA_INFO_JSON)
 except KeyError as e:
     st.error(f"Missing a required secret. Please check your secrets configuration: {e}")
     st.stop()
