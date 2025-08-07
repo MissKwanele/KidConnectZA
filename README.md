@@ -9,7 +9,7 @@ app_file: streamlit_app.py
 pinned: false
 ---
 
-# KidConnect Messaging App
+# KidConnectZA Messaging App
 
 Welcome to the **KidConnectZA** messaging app!
 
