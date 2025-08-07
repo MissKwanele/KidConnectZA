@@ -27,6 +27,14 @@ from PIL import Image
 import json
 import base64
 
+# --------------------
+# Session State Initialization
+# --------------------
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+if "user" not in st.session_state:
+    st.session_state.user = None
+    
 # --- App Branding ---
 st.set_page_config(page_title="KidConnect", page_icon="📱", layout="wide")
 
@@ -169,14 +177,6 @@ def send_whatsapp_message(to_number, message):
         return response.status_code, response.text
     except Exception as e:
         return 500, f"Request failed: {e}"
-
-# --------------------
-# Streamlit UI
-# --------------------
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-if "user" not in st.session_state:
-    st.session_state.user = None
 
 if not st.session_state.logged_in:
     st.subheader("🔐 Login")
