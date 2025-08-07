@@ -356,7 +356,7 @@ if st.session_state.user == "principal":
                             full_message_body += f"{message_text}\n\n"
 
                         closing_message = "Thank you, have a lovely day - Speelkas Admin"
-                        final_message = f"Hi {name},\n\n{full_message_body.strip()}\n{closing_message}"
+                        final_message = f"Hello {Name},\n\n{full_message_body.strip()}\n{closing_message}"
 
                         status, resp = send_whatsapp_message(number, final_message)
                         if status == 202:
