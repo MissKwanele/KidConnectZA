@@ -11,7 +11,7 @@ pinned: false
 
 # KidConnect Messaging App
 
-Welcome to the **KidConnect** messaging app!
+Welcome to the **KidConnectZA** messaging app!
 
 This app allows principals and teachers to send WhatsApp messages to parents using the Vonage API and manage termly updates and parent lists via Google Sheets.
 
