@@ -75,7 +75,7 @@ except KeyError as e:
 # --------------------
 # Connect to Google Sheets
 # --------------------
-@st.cache_resource(ttl=3600)  # Cache for 1 hour or adjust based on needs
+@st.cache_resource(ttl=300)  # Cache for 1 hour or adjust based on needs
 def get_google_sheet():
     try:
         # Decode base64 JSON from secrets
@@ -153,9 +153,13 @@ if "user" not in st.session_state:
 
 if not st.session_state.logged_in:
     st.subheader("🔐 Login")
-    username = st.text_input("Username (principal/staff)")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
+
+    with st.form("login_form"):
+        username = st.text_input("Username (principal/staff)")
+        password = st.text_input("Password", type="password")
+        submit_button = st.form_submit_button("Login")
+
+    if submit_button:
         if authenticate(username, password):
             st.session_state.logged_in = True
             st.session_state.user = username
@@ -167,6 +171,56 @@ if not st.session_state.logged_in:
 
 # Dashboard after login
 st.success(f"Logged in as {st.session_state.user.capitalize()}")
+
+# --- Idle Timeout Script ---
+if st.session_state.logged_in:
+    timeout_in_minutes = 5
+    warning_in_seconds = 30
+    
+    idle_js = f"""
+    <script>
+    var timeout = {timeout_in_minutes * 60 * 1000};
+    var warningTime = {timeout_in_minutes * 60 * 1000 - warning_in_seconds * 1000};
+    var timer;
+
+    function resetTimer() {{
+        clearTimeout(timer);
+        timer = setTimeout(showWarning, warningTime);
+    }}
+
+    function showWarning() {{
+        // We can't directly show a Streamlit warning here,
+        // so we'll just log to the console. The next step
+        // will trigger the logout.
+        console.log("Session will time out soon due to inactivity.");
+        timer = setTimeout(logout, {warning_in_seconds} * 1000);
+    }}
+
+    function logout() {{
+        // This is a special Streamlit function to signal a rerun.
+        // We'll use a unique key in the URL to trigger the logout.
+        window.location.href = window.location.href.split('?')[0] + '?logout=true';
+    }}
+
+    document.addEventListener('mousemove', resetTimer);
+    document.addEventListener('keypress', resetTimer);
+    document.addEventListener('click', resetTimer);
+
+    resetTimer();
+    </script>
+    """
+    
+    st.components.v1.html(idle_js, height=0)
+
+    # Check for the logout signal in the URL
+    query_params = st.query_params
+    if 'logout' in query_params and query_params['logout'] == 'true':
+        st.session_state.logged_in = False
+        st.session_state.user = None
+        st.rerun()
+
+    # The rest of your app code (tabs, etc.) goes here
+    # ----------------------------------------------------
 
 if st.session_state.user == "principal":
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["Send Message", "Message Log", "Upload Parent List", "📅 Termly Activities", "⏰ Daily Scheduler"])
