@@ -342,7 +342,7 @@ if st.session_state.user == "principal":
                     sent_count = 0
 
                     for parent_row in parent_data:
-                        name = parent_row.get("Name", "")
+                        name = parent_row.get("name", "")
                         number = str(parent_row.get("PhoneNumber", "")).strip()
 
                         if not number or number not in WHITELIST:
