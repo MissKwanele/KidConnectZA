@@ -75,17 +75,24 @@ except KeyError as e:
 # --------------------
 # Connect to Google Sheets
 # --------------------
-@st.cache_resource
+@st.cache_resource(ttl=3600)  # Cache for 1 hour or adjust based on needs
 def get_google_sheet():
     try:
+        # Decode base64 JSON from secrets
+        GOOGLE_SA_INFO = json.loads(base64.b64decode(st.secrets["google_service_account"]["base64_encoded_json"]).decode("utf-8"))
+        SPREADSHEET_ID = st.secrets["google"]["spreadsheet_url"]
+        
+        # Setup credentials and authorize with Google Sheets
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = ServiceAccountCredentials.from_json_keyfile_dict(GOOGLE_SA_INFO, scope)
         client = gspread.authorize(creds)
 
+        # Open the spreadsheet and worksheets
         sheet_main = client.open_by_key(SPREADSHEET_ID)
         parent_sheet = sheet_main.worksheet("Parents")
         termly_sheet = sheet_main.worksheet("TermlyActivities")
-        # Assuming you have a separate sheet for message logs
+        
+        # Create MessageLog worksheet if not found
         try:
             message_log_sheet = sheet_main.worksheet("MessageLog")
         except gspread.WorksheetNotFound:
@@ -98,6 +105,7 @@ def get_google_sheet():
         st.error(f"Failed to connect to Google Sheets. Check your secrets and sheet permissions: {e}")
         st.stop()
 
+# Initialize Google Sheets
 try:
     parent_sheet, termly_sheet, message_log_sheet = get_google_sheet()
 except Exception as e:
