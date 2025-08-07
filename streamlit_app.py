@@ -46,7 +46,7 @@ Send termly updates, class announcements, and school-wide WhatsApp messages.
 """)
 
 # --- Welcome screen / header ---
-st.markdown("<h1 style='text-align: center;'>Welcome to KidConnect 📲</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Welcome to KidConnectZA 📲</h1>", unsafe_allow_html=True)
 st.markdown("""
 <p style='text-align: center; font-size:18px;'>
 An easy-to-use messaging tool for teachers and principals to connect with parents.
