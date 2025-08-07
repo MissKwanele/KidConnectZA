@@ -175,7 +175,7 @@ else:
 
 with tab1:
     st.subheader("✉️ Compose Message")
-    class_selected = st.radio("Select Class", ["All Classes", "English", "Afrikaans"])
+    class_selected = st.radio("Select Class", ["All Classes"])
     message_text = st.text_area("Message to Parents")
     send_now = st.button("Send Now")
 
