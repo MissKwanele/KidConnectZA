@@ -39,9 +39,9 @@ except FileNotFoundError:
     st.sidebar.error(f"Logo file not found at {logo_path}")
 
 # Sidebar title and description
-st.sidebar.title("📚 KidConnect")
+st.sidebar.title("📚 KidConnectZA")
 st.sidebar.markdown("""
-Welcome to **KidConnect**!
+Welcome to **KidConnectZA**!
 Send termly updates, class announcements, and school-wide WhatsApp messages.
 """)
 
