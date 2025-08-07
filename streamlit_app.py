@@ -45,6 +45,13 @@ Welcome to **KidConnectZA**!
 Send termly updates, class announcements, and school-wide WhatsApp messages.
 """)
 
+# Logout Button (Added Here)
+if st.session_state.logged_in:
+    if st.sidebar.button("Logout"):
+        st.session_state.logged_in = False
+        st.session_state.user = None
+        st.rerun()
+
 # --- Welcome screen / header ---
 st.markdown("<h1 style='text-align: center;'>Welcome to KidConnectZA 📲</h1>", unsafe_allow_html=True)
 st.markdown("""
