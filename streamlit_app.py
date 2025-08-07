@@ -30,6 +30,18 @@ import base64
 # --- App Branding ---
 st.set_page_config(page_title="KidConnect", page_icon="📱", layout="wide")
 
+# Use custom CSS for a festive background
+page_bg_img = """
+<style>
+.stApp {
+    background-image: url("https://images.unsplash.com/photo-1596495578065-6f117079237c");
+    background-size: cover;
+    background-position: center;
+}
+</style>
+"""
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 # Load and display logo in sidebar
 logo_path = "KidKonnectZA Logo.png"
 try:
@@ -52,13 +64,21 @@ if st.session_state.logged_in:
         st.session_state.user = None
         st.rerun()
 
-# --- Welcome screen / header ---
-st.markdown("<h1 style='text-align: center;'>Welcome to KidConnectZA 📲</h1>", unsafe_allow_html=True)
+# --- Welcome screen / header with more color ---
 st.markdown("""
-<p style='text-align: center; font-size:18px;'>
-An easy-to-use messaging tool for teachers and principals to connect with parents.
-</p>
+<div style="background-color: #4CAF50; padding: 20px; border-radius: 10px; text-align: center;">
+    <h1 style="color: white; font-size: 40px;">Welcome to KidConnectZA 🚀</h1>
+    <p style="color: white; font-size: 18px;">
+        An easy-to-use messaging tool for teachers and principals to connect with parents.
+    </p>
+</div>
 """, unsafe_allow_html=True)
+
+# Add celebratory balloons on initial page load
+if not st.session_state.get('initial_load_celebrated'):
+    st.balloons()
+    st.session_state['initial_load_celebrated'] = True
+
 
 # --------------------
 # Config from secrets.toml
