@@ -186,7 +186,7 @@ with tab1:
             for row in data:
                 if class_selected != "All Classes" and row.get("Class") != class_selected:
                     continue
-                name = row.get("Name", "")
+                name = row.get("Parent", "")
                 number = str(row.get("PhoneNumber", "")).strip()
 
                 # Check for number format and whitelist
